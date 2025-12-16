@@ -1,26 +1,43 @@
-import React from "react";
+import {Number} from './Number';
+import {Clock} from './Clock';
+import { useState, useEffect  } from 'react';
 
-//include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
-
-//create your first component
 const Home = () => {
-	return (
-		<div className="text-center">
-            
+	let [seconds, setSeconds] = useState(0);
+	let  [index, setIndex] = useState(0);
+	let [cards, setCards] = useState([0,0,0,0,0,0]);
+	useEffect(() => {
+		let timer = setInterval(() => {
+			let segundos = seconds;
+			if (cards[index] < 9) {
+				cards[index] = segundos
+				setCards(cards);
+				setSeconds(seconds + 1);
+			}
+			else {
+				cards[index] = 0
+				setIndex(index+1);
+				cards[index+1] = 1
+				setCards(cards);
+				setSeconds(2);
+			}
+			
+				}, 1000);
+		return () => {
+			clearInterval(timer)
+		};
+	}, [seconds,cards]);
 
-			<h1 className="text-center mt-5">Hello Rigo!</h1>
-			<p>
-				<img src={rigoImage} />
-			</p>
-			<a href="#" className="btn btn-success">
-				If you see this green button... bootstrap is working...
-			</a>
-			<p>
-				Made by{" "}
-				<a href="http://www.4geeksacademy.com">4Geeks Academy</a>, with
-				love!
-			</p>
+	return (
+		<div className='container'>
+			<Clock/>
+			<Number number={cards[5]}/>
+			<Number number={cards[4]}/>
+			<Number number={cards[3]}/>
+			<Number number={cards[2]}/>
+			<Number number={cards[1]}/>
+			<Number number={cards[0]}/>
+			
 		</div>
 	);
 };

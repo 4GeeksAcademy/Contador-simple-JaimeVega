@@ -9,3 +9,28 @@
     import 'relative/path/to/stylesheet.scss';
 
 */
+.container {
+    display: flex;
+    gap: 10px;
+    background-color: black;
+    justify-content: center;
+    padding: 20px;
+    border-radius: 10px;
+}
+.number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid black;
+    border-radius: 10px;
+    height: 100px;
+    width: 80px;
+    font-size: 50px;
+    text-align: center;
+    color: white;
+    background-color: rgb(34, 33, 33);
+    span {
+        transform: scale(2.5);
+        display: flex;
+    }
+}
