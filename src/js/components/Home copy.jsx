@@ -5,33 +5,24 @@ import { useState, useEffect  } from 'react';
 const Home = () => {
 	let [seconds, setSeconds] = useState(0);
 	let  [index, setIndex] = useState(0);
-	/* let [cards, setCards] = useState([[false,0],[false,0],[false,0],[false,0],[false,0],[false,0]]); */
 	let [cards, setCards] = useState([0,0,0,0,0,0]);
 	useEffect(() => {
 		let timer = setInterval(() => {
-				let segundos = seconds;
-				if (cards[0] < 9 ) {
-					cards[0] = segundos;
-					setCards(cards);
-					setSeconds(seconds + 1);
-				}
-				else {
-					for (let i = 1; i < 6; i++) {
-						if (cards[i] < 9) {
-							cards[i] = cards[i] + 1;
-							break
-						}
-						else {
-							cards[i] = 0
-							setCards(cards);
-						}
-					}
-					cards[0] = 0
-					setCards(cards);
-					setSeconds(1);
-				}
-							
-				}, 600);
+			let segundos = seconds;
+			if (cards[index] < 9) {
+				cards[index] = segundos
+				setCards(cards);
+				setSeconds(seconds + 1);
+			}
+			else {
+				cards[index] = 0
+				setIndex(index+1);
+				cards[index+1] = 1
+				setCards(cards);
+				setSeconds(2);
+			}
+			
+				}, 1000);
 		return () => {
 			clearInterval(timer)
 		};
