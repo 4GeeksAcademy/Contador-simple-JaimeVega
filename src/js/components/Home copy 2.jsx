@@ -6,47 +6,35 @@ const Home = () => {
 	let [cards, setCards] = useState([0,0,0,0,0,0]);
 	let [active, setActive] = useState(true);
 	let [cuenta, setCuenta] = useState(1);
-	let [alerta, setAlerta] = useState("");
 	useEffect (()=> {
 
 	}, [cuenta]);
 	useEffect(() => {
 		if (active) {
 		let timer = setInterval(() => {
-			if (cards.reduce((acum, valor) => acum + valor, 0) === 0 && cuenta === -1) {
-				setCuenta(1);
-				setActive(false);}
-
-			else {
+			console.log(cuenta);
 			
-				let inicioRegresivo = (cuenta === 1)? 0 : 9;
+				/* let finRegresivo = (cuenta = 1)? 9 : 0;
+				let inicioRegresivo = (cuenta = 1)? 0 : 9; */
 				let arrayCards = [...cards];
-				let finRegresivo = (cuenta === 1)? arrayCards[0] < 9 : arrayCards[0] > 0;
-				if (finRegresivo) {
+				if (arrayCards[0] < 9 ) {
 					arrayCards[0] = arrayCards[0]+cuenta;
 					setCards(arrayCards);
 				}
 				else {
 					for (let i = 1; i < 6; i++) {
-						if ((cuenta === 1)? arrayCards[i] < 9 : arrayCards[i] > 0) {
+						if (arrayCards[i] < 9) {
 							arrayCards[i] = arrayCards[i] + cuenta;
 							break
 						}
 						else {
-							arrayCards[i] = inicioRegresivo
+							arrayCards[i] = 0
 						}
 					}
-					arrayCards[0] = inicioRegresivo
+					arrayCards[0] = 0
 					setCards(arrayCards);
-				}
-				let counter = parseInt([...arrayCards].reverse().join(''));
-				console.log(counter);
-				if (alerta === counter ) {alert(`Llegaste al numero ${alerta}`)}	
-		}		
-			}
-				
-				
-				, 500);
+				}			
+				}, 500);
 		return () => {
 			clearInterval(timer)
 		};
@@ -61,7 +49,6 @@ const Home = () => {
 					<button onClick={()=> {
 						setCards([0,0,0,0,0,0]);
 						setActive(true);
-						setCuenta(1)
 					}}>Reiniciar</button>
 					<button onClick={()=> {
 						setActive(false);
@@ -81,7 +68,7 @@ const Home = () => {
 			<div className='container-buttons'> 
 				<div className="inputs">
 					<form className='input' onSubmit={(e) => {
-						e.preventDefault();
+						e.preventDefault(); // evita recarga
 						const value = e.target.buttonRegresivo.value;
 						let array = [0,0,0,0,0,0];
 						for (let i = 0 ; i < array.length; i++) {
@@ -92,44 +79,27 @@ const Home = () => {
 						setCards(array.reverse());
 						console.log(array);
 					}}>
-						<input type="text" name="buttonRegresivo" maxLength={6}  inputMode="numeric"
+						<input type="text" name="buttonRegresivo" maxLength={6} 
 						onChange={(e)=>{
-							const value = e.target.value;
+							const value = parseInt(e.target.value);
 							console.log(value);
-							if (!/^\d*$/.test(value)) {
-								alert('solo se permiten numeros');
-								e.target.value = value.slice(0, -1);
-								return;
-    						}
+							if (isNaN(value)&& e.target.value != '') {
+								alert('solo se permiten numeros')
+								e.target.value = ''
+							}
 							
 						}}/>
 						<button type='submit' onClick={()=> {
-							setCuenta(-1)
-							setActive(true);
+							let cuentaRegresiva = cuenta;
+							setCuenta(-cuentaRegresiva)
+							console.log(-cuentaRegresiva);
 							
 						}}>Cuenta Regresiva</button>
 					</form>
-
-					<form className='input' onSubmit={(e) => {
-						e.preventDefault();
-						const value = e.target.buttonRegresivo.value;
-						let number = parseInt(value);
-						setAlerta(number)
-						console.log(number);
-					}}>
-						<input type="text" name="buttonRegresivo" maxLength={6}  inputMode="numeric"
-						onChange={(e)=>{
-							const value = e.target.value;
-							console.log(value);
-							if (!/^\d*$/.test(value)) {
-								alert('solo se permiten numeros');
-								e.target.value = value.slice(0, -1);
-								return;
-    						}
-							
-						}}/>
-						<button type='submit'>Establecer Alerta</button>
-					</form>
+					<div className='input'>
+						<input type="text" />
+						<button>Establecer Alerta</button>
+					</div>
 					
 				</div>
 			</div>	
